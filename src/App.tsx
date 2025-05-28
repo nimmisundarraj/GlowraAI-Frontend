@@ -75,7 +75,10 @@ export default function App() {
       `}
       >
         <BrandHeading />
-        <GlowingStars label="Skin. Glow. Healthy. Clear. Glow—Naturally." interval={1800} />
+        <GlowingStars
+          label="Skin. Glow. Healthy. Clear. Glow—Naturally."
+          interval={1800}
+        />
         <ImageUploader onImageUpload={handleImageUpload} />
 
         {layoutState === "split" && (analysisResult || error) && (
@@ -99,9 +102,7 @@ export default function App() {
           transition-all duration-700 ease-in-out animate-fadeIn
         `}
         >
-          {loading && (
-            <LeafLoader />
-          )}
+          {loading && <LeafLoader />}
 
           {error && (
             <div className="p-4 bg-red-100 text-red-800 rounded-lg shadow-md w-full">

@@ -1,39 +1,56 @@
-import React from 'react';
+import React from "react";
 
 interface ResultsDisplayProps {
   issues: {
-    type: string; // e.g., "Acne", "Pimples"
+    type: string;
     remedy: string;
-    howToApply: string;
+    application: string;
     duration: string;
   }[];
 }
 
 export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ issues }) => {
-  if (!issues || issues.length === 0) {
+  if (!issues?.length) {
     return (
-      <div className="p-4 bg-yellow-100 text-yellow-800 rounded-lg shadow-md w-full">
+      <div className="mx-auto w-full max-w-lg rounded-xl border border-yellow-300/40 bg-yellow-50/80 p-4 text-center text-yellow-900 shadow-sm backdrop-blur-lg">
         No specific skin issues detected.
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-      {issues.map((issue, index) => (
-        <div key={index} className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <h3 className="text-xl font-semibold text-gray-800 mb-3">{issue.type}</h3>
-          <p className="text-gray-700 mb-2">
-            <span className="font-medium">Remedy:</span> {issue.remedy}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <span className="font-medium">How to apply:</span> {issue.howToApply}
-          </p>
-          <p className="text-gray-700">
-            <span className="font-medium">Duration:</span> {issue.duration}
-          </p>
-        </div>
+    <section
+      className="mx-auto w-full max-w-7xl
+             grid [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]
+             gap-6 auto-rows-fr"
+    >
+      {issues.map((issue, idx) => (
+        <article
+          key={idx}
+          className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-6 shadow-lg backdrop-blur-md transition
+                     hover:scale-[1.03] hover:shadow-xl"
+        >
+          {/* gradient wash */}
+          <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-teal-100/40 via-transparent to-emerald-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+          <h3 className="mb-4 text-2xl font-semibold tracking-tight text-slate-800">
+            {issue.type}
+          </h3>
+
+          <ul className="space-y-2 text-[15px] leading-6 text-slate-700">
+            <li>
+              <span className="font-medium">Remedy:</span> {issue.remedy}
+            </li>
+            <li>
+              <span className="font-medium">How to apply:</span>{" "}
+              {issue.application}
+            </li>
+            <li>
+              <span className="font-medium">Duration:</span> {issue.duration}
+            </li>
+          </ul>
+        </article>
       ))}
-    </div>
+    </section>
   );
 };

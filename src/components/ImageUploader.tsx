@@ -4,22 +4,14 @@ interface Props {
   onImageUpload: (file: File) => void;
 }
 
-/**
- * A modern, centered selfie uploader that lets the user either pick an image
- * or capture one with the webcam.  Designed with Tailwind CSS.
- *
- * ➡️  Wrap this component in a parent with `class="flex justify-center items-start md:items-center min-h-screen bg-gradient-to-br from-emerald-50 via-indigo-50 to-sky-50"`
- *     (e.g. your <main> tag) to keep the whole experience vertically & horizontally centred on the page.
- */
 export default function ImageUploader({ onImageUpload }: Props) {
-  const [preview, setPreview]   = useState<string | null>(null);
-  const [showWebcam, setShow]   = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [showWebcam, setShow] = useState(false);
 
-  const videoRef  = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  /* ────────────────────────── webcam lifecycle ───────────────────────── */
   useEffect(() => {
     if (!showWebcam) return;
 
@@ -48,14 +40,13 @@ export default function ImageUploader({ onImageUpload }: Props) {
     };
   }, [showWebcam]);
 
-  /* ───────────────────────────── take snapshot ───────────────────────── */
   const takePhoto = useCallback(() => {
     if (!videoRef.current || !canvasRef.current) return;
-    const canvas  = canvasRef.current;
-    const ctx     = canvas.getContext("2d");
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width  = videoRef.current.videoWidth;
+    canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
@@ -68,7 +59,6 @@ export default function ImageUploader({ onImageUpload }: Props) {
     }, "image/png");
   }, [onImageUpload]);
 
-  /* ─────────────────────────── local file picker ─────────────────────── */
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -77,18 +67,14 @@ export default function ImageUploader({ onImageUpload }: Props) {
     setShow(false);
   };
 
-  /* ─────────────────────────────── markup ────────────────────────────── */
   return (
     <section className="w-full max-w-sm md:max-w-lg mx-auto">
       <div className="flex flex-col gap-6 rounded-2xl bg-white/70 backdrop-blur-lg shadow-2xl p-6">
-        {/* header */}
         <h2 className="text-center text-2xl font-semibold tracking-tight text-gray-800">
           Upload or Take a Selfie
         </h2>
 
-        {/* action buttons */}
         <div className="flex flex-wrap justify-center gap-3">
-          {/* hidden file input */}
           <input
             id="file-input"
             type="file"
@@ -111,7 +97,6 @@ export default function ImageUploader({ onImageUpload }: Props) {
           </button>
         </div>
 
-        {/* webcam area */}
         {showWebcam && (
           <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-900 flex items-center justify-center">
             <video
@@ -122,7 +107,6 @@ export default function ImageUploader({ onImageUpload }: Props) {
               muted
             />
 
-            {/* capture button */}
             <button
               onClick={takePhoto}
               className="absolute bottom-3 right-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-xl shadow-lg transition hover:scale-105 hover:bg-emerald-600"
@@ -134,7 +118,6 @@ export default function ImageUploader({ onImageUpload }: Props) {
           </div>
         )}
 
-        {/* thumbnail */}
         {preview && (
           <div className="flex flex-col items-center gap-2">
             <span className="text-sm text-gray-600">Last capture:</span>

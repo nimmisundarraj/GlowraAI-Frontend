@@ -1,8 +1,6 @@
-// components/LeafLoader.tsx
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
-// Basic Leaf SVG Component
 const LeafSVG = () => (
   <svg
     width="48"
@@ -22,7 +20,7 @@ export const LeafLoader: React.FC = () => {
         className="text-green-500"
         initial={{ rotate: -20, y: 0 }}
         animate={{
-          rotate: [ -20, 20, -20],
+          rotate: [-20, 20, -20],
           y: [0, -5, 0],
         }}
         transition={{
