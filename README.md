@@ -21,24 +21,29 @@
 
 ### Installation
 
-- ```bash
+<pre>
 git clone https://github.com/your-username/glowra-ui.git
 cd glowra-ui
 npm install
-- # or
-yarn install
+# or
+yarn install 
+</pre>
 
 ### Running the App
+<pre>
 npm run dev
 # or
 yarn dev
+</pre>
 
 The app will start at http://localhost:5173 (if using Vite).
 
 ### 📦 Build
+<pre>
 npm run build
 # or
 yarn build
+</pre>
 
 ### 🤝 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to change.
