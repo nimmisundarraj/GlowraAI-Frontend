@@ -21,11 +21,11 @@
 
 ### Installation
 
-```bash
+- ```bash
 git clone https://github.com/your-username/glowra-ui.git
 cd glowra-ui
 npm install
-# or
+- # or
 yarn install
 
 ### Running the App
