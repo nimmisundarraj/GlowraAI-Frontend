@@ -173,6 +173,10 @@ const FaceAnalyzer: React.FC<Props> = ({ file, loading }) => {
 
         animationFrameId.current = requestAnimationFrame(animateMesh);
       } else {
+        if (ctx && canvas) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
         if (animationFrameId.current) {
           cancelAnimationFrame(animationFrameId.current);
           animationFrameId.current = null;
