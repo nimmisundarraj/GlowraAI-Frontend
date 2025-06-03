@@ -52,7 +52,6 @@ const FaceAnalyzer: React.FC<Props> = ({ file, loading }) => {
     faceMeshInstance
       .initialize()
       .then(() => {
-        console.log("MediaPipe FaceMesh initialized successfully.");
         faceMeshRef.current = faceMeshInstance;
         setIsFaceMeshLoaded(true);
       })
@@ -221,7 +220,6 @@ const FaceAnalyzer: React.FC<Props> = ({ file, loading }) => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         await faceMeshRef.current?.send({ image: canvas });
-        console.log("Image sent to FaceMesh for processing.");
       };
 
       img.onerror = (error) => {
@@ -247,20 +245,26 @@ const FaceAnalyzer: React.FC<Props> = ({ file, loading }) => {
       backgroundImageRef.current &&
       !animationFrameId.current
     ) {
-      console.log("Starting animation loop due to loading state change.");
       animationStartTimeRef.current = performance.now();
       animationFrameId.current = requestAnimationFrame(animateMesh);
     } else if (!loading && animationFrameId.current) {
       if (lastDetectionResults && backgroundImageRef.current) {
         requestAnimationFrame(animateMesh);
       }
-      console.log("Loading is false, animation should be stopping soon.");
     }
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
         animationFrameId.current = null;
         animationStartTimeRef.current = 0;
+
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext("2d");
+        const img = backgroundImageRef.current;
+        if (canvas && ctx && img) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
       }
     };
   }, [loading, lastDetectionResults, animateMesh, backgroundImageRef]);
