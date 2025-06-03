@@ -20,7 +20,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ issues }) => {
 
   return (
     <section
-      className="mx-auto w-full max-w-7xl
+      className="px-4 mx-auto w-full
              grid [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]
              gap-6 auto-rows-fr"
     >
@@ -30,7 +30,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ issues }) => {
           className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 p-6 shadow-lg backdrop-blur-md transition
                      hover:scale-[1.03] hover:shadow-xl"
         >
-          {/* gradient wash */}
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-teal-100/40 via-transparent to-emerald-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
           <h3 className="mb-4 text-2xl font-semibold tracking-tight text-slate-800">

@@ -78,9 +78,71 @@ button:focus-visible {
 
 @layer utilities {
   .bg-glowra {
-    background-image: url('../public/bg.png');
+    background-image: url('../public/bg3.png');
     background-size: cover;
     background-position: bottom;
     background-repeat: no-repeat;
   }
+}
+
+.app-container {
+  max-width: 38rem;
+}
+
+.upload-card {
+  backdrop-filter: blur(12px) saturate(140%);
+  background: rgba(255,255,255,.25);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 1rem;
+}
+
+.brand-heading {
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+.tagline {
+  font-size: clamp(1rem, 2.1vw, 1.375rem);
+  color: #cfe8d0;
+}
+
+.choose-button {
+  background-color: #374f0a !important;
+}
+
+.logout-btn {
+  &:hover {
+    background-color: #243805 !important;
+    border-color: #243805 !important;
+    outline: none !important;
+  }
+}
+
+button {
+  border: none; 
+  &:hover {
+    border-color: transparent;
+    outline: none;
+  }
+}
+
+.upload-button {
+  background-color: #243805 !important;
+
+  &:hover {
+    background-color: #243805 !important;
+    border-color: #243805 !important;
+  }
+}
+
+.glowra-heading-split .header-glowra {
+  height: 10rem !important;
+  width: 35rem !important;
+}
+
+.header-glowra {
+  height: 18vw;
+  width: calc(80vw);
 }

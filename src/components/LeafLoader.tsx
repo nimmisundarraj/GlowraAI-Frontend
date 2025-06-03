@@ -33,7 +33,7 @@ export const LeafLoader: React.FC = () => {
         <LeafSVG />
       </motion.div>
       <motion.p
-        className="mt-4 text-lg text-gray-700"
+        className="mt-4 text-lg text-white"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}

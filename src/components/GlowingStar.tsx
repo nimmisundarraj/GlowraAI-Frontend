@@ -22,7 +22,7 @@ export const GlowingStars = ({ label, interval = 1800 }: Props) => {
 
   return (
     <div className="flex items-center justify-center h-32 space-x-2 text-2xl font-semibold">
-      <span className="text-white font-light">{words[currentIndex]}</span>
+      <span className="text-white font-bold">{words[currentIndex]}</span>
       <svg
         viewBox="0 0 24 24"
         className={`w-7 h-7 ${
