@@ -9,14 +9,12 @@ import API from "../services/api";
 
 function Dashboard() {
   const { isAuthenticated, logout } = useAuth();
-
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [layoutState, setLayoutState] = useState<"centered" | "split">(
     "centered"
   );
-  const [imageUploaded, setImageUploaded] = useState(false);
 
   const getEmailId = async () => {
     try {
@@ -34,14 +32,14 @@ function Dashboard() {
     setLoading(true);
     setError(null);
     setAnalysisResult(null);
-    setImageUploaded(true);
 
-    if (window.innerWidth > 962) {
-      setLayoutState("split");
-    }
-
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 1000);
     const email = await getEmailId();
-
     const formData = new FormData();
     formData.append("image", file);
     formData.append("email", email);
@@ -49,6 +47,9 @@ function Dashboard() {
       try {
         const response = await API.post(`/analyze-image`, formData);
         setAnalysisResult(response.data.issues || []);
+        if (window.innerWidth > 962) {
+          setLayoutState("split");
+        }
       } catch (err: any) {
         console.error("Error analyzing image:", err);
         setError(err.message || "Failed to analyze image.");
@@ -64,7 +65,6 @@ function Dashboard() {
     setAnalysisResult(null);
     setLoading(false);
     setError(null);
-    setImageUploaded(false);
     setLayoutState("centered");
   };
 
@@ -167,7 +167,7 @@ function Dashboard() {
         )}
 
         {isAuthenticated ? (
-          <ImageUploader onImageUpload={handleImageUpload} />
+          <ImageUploader onImageUpload={handleImageUpload} loading={loading} />
         ) : (
           <div className="mt-8 flex flex-col gap-6 rounded-2xl bg-white/70 backdrop-blur-lg shadow-2xl p-6">
             <button
@@ -191,10 +191,10 @@ function Dashboard() {
         )}
       </div>
 
-      {imageUploaded && (
+      {(analysisResult && !loading) && (
         <div
           className={`
-            ${`flex flex-col items-start justify-start pt-12 ${
+            ${`flex flex-col lg:min-h-screen items-start justify-center lg:pt-12 ${
               layoutState === "split" ? "w-1/2 ml-8 " : "w-full max-w-md"
             }`}
             transition-all duration-700 ease-in-out animate-fadeIn

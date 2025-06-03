@@ -1,13 +1,16 @@
 import { Camera, Leaf } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
+import FaceAnalyzer from "./FaceAnalyzer";
 
 interface Props {
   onImageUpload: (file: File) => void;
+  loading: boolean;
 }
 
-export default function ImageUploader({ onImageUpload }: Props) {
+export default function ImageUploader({ onImageUpload, loading }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [showWebcam, setShow] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -58,6 +61,7 @@ export default function ImageUploader({ onImageUpload }: Props) {
       setPreview(URL.createObjectURL(file));
       onImageUpload(file);
       setShow(false);
+      setFile(file);
     }, "image/png");
   }, [onImageUpload]);
 
@@ -67,6 +71,21 @@ export default function ImageUploader({ onImageUpload }: Props) {
     setPreview(URL.createObjectURL(file));
     onImageUpload(file);
     setShow(false);
+    setFile(file);
+  };
+
+  const handleOnClick = () => {
+    setFile(null);
+    setPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 100);
   };
 
   return (
@@ -75,13 +94,13 @@ export default function ImageUploader({ onImageUpload }: Props) {
         <p className="text-xl font-semibold text-[#d9dacf] text-center drop-shadow-sm">
           Upload or Take a Selfie
         </p>
-
         <div className="flex flex-wrap justify-center items-center gap-3 flex-col sm:flex-row">
           <input
             id="file-input"
             type="file"
             accept="image/*"
             onChange={handleFile}
+            onClick={handleOnClick}
             className="hidden"
             ref={fileInputRef}
           />
@@ -96,15 +115,17 @@ export default function ImageUploader({ onImageUpload }: Props) {
                   animate-[pulse_4s_ease-in-out_infinite]"
           />
           <button
-            onClick={() => setShow((open) => !open)}
-            className="upload-button rounded-md hover:opacity-90 px-4 py-2 text-sm font-medium text-white shadow-md transition hover:border-color-none focus:outline-none bg-[#2E3D30] hover:bg-[#3F4F40] transition duration-200"
+            onClick={() => {
+              handleOnClick();
+              setShow((open) => !open);
+            }}
+            className="upload-button rounded-md hover:opacity-90 px-4 py-2 text-sm font-medium text-white shadow-md hover:border-color-none focus:outline-none bg-[#2E3D30] hover:bg-[#3F4F40] transition duration-200"
           >
             {showWebcam ? "Close Camera" : "Open Camera"}
           </button>
         </div>
-
         {showWebcam && (
-          <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-900 flex items-center justify-center bg-[#2E3D30] hover:bg-[#3F4F40] transition duration-200">
+          <div className="relative w-full aspect-square overflow-hidden rounded-lg flex items-center justify-center bg-[#2E3D30] hover:bg-[#3F4F40] transition duration-200">
             <video
               ref={videoRef}
               className="h-full w-full object-cover"
@@ -121,7 +142,10 @@ export default function ImageUploader({ onImageUpload }: Props) {
               data-tooltip-id="tooltip"
               data-tooltip-content="Take a photo"
             >
-              <Camera className="h-10 w-10 text-emerald-600" fill="text-emerald-600" />{" "}
+              <Camera
+                className="h-10 w-10 text-emerald-600"
+                fill="text-emerald-600"
+              />{" "}
             </button>
             <canvas ref={canvasRef} className="hidden" />
           </div>
@@ -130,11 +154,7 @@ export default function ImageUploader({ onImageUpload }: Props) {
         {preview && (
           <div className="flex flex-col items-center gap-2">
             <span className="text-sm text-white">Last capture:</span>
-            <img
-              src={preview}
-              alt="preview"
-              className="h-24 w-24 rounded-full object-cover ring-4 ring-emarals-400"
-            />
+            <FaceAnalyzer file={file} loading={loading} />
           </div>
         )}
       </div>
